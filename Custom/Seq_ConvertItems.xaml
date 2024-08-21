@@ -7,7 +7,7 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>2753,916</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>2753,3316</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Seq_ConvertItems_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -109,15 +109,15 @@
       <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="This sequence is to Convert Eur currency from Eur column to usd currency. I used Excel activities because they are quite simple and i dont need to use any complicated filters. If there was need of some filtering or table manipulation the excel read range and working with the datatable would be more robust approach. I used for each excel row and IF activity to find the unpopulated cell in USD column. then i took the out data from CheckUsdPrice and multiplied by eur values. At first i saw that for some reason the given excel had strange formating as it made the valued in usd field to be shown as british pounds, so I've added some formating activities to make it more presentable. Added Dollar curranct sign to usd and eur sign to eur. These formating activities doesnt take much time from the rpa runtime. After robot finishes with running for each row, It saves the file into Input folder, but that can be changed in the main workflow arguments. I decided to make it this way with the input as well for testing purposes." DisplayName="Seq_ConvertItems" sap:VirtualizedContainerService.HintSize="416,719" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="This sequence is to Convert Eur currency from Eur column to usd currency. I used Excel activities because they are quite simple and i dont need to use any complicated filters. If there was need of some filtering or table manipulation the excel read range and working with the datatable would be more robust approach. I used for each excel row and IF activity to find the unpopulated cell in USD column. then i took the out data from CheckUsdPrice and multiplied by eur values. At first i saw that for some reason the given excel had strange formating as it made the valued in usd field to be shown as british pounds, so I've added some formating activities to make it more presentable. Added Dollar curranct sign to usd and eur sign to eur. These formating activities doesnt take much time from the rpa runtime. After robot finishes with running for each row, It saves the file into Input folder, but that can be changed in the main workflow arguments. I decided to make it this way with the input as well for testing purposes." DisplayName="Seq_ConvertItems" sap:VirtualizedContainerService.HintSize="885,3251" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="354,173" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;ConvertItems: Starting sequence&quot;]" />
-    <ueab:ExcelProcessScopeX DisplayAlerts="{x:Null}" ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayName="Excel Process Scope" sap:VirtualizedContainerService.HintSize="354,57" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_1">
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="823,173" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;ConvertItems: Starting sequence&quot;]" />
+    <ueab:ExcelProcessScopeX DisplayAlerts="{x:Null}" ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayName="Excel Process Scope" sap:VirtualizedContainerService.HintSize="823,2709" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_1">
       <ueab:ExcelProcessScopeX.Body>
         <ActivityAction x:TypeArguments="ui:IExcelProcess">
           <ActivityAction.Argument>
@@ -159,7 +159,18 @@
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
-                            <If Condition="[string.IsNullOrEmpty(CurrentRow(&quot;Price (USD)&quot;)) = true]" sap:VirtualizedContainerService.HintSize="535,1035" sap2010:WorkflowViewState.IdRef="If_1">
+                            <ueab:FormatRangeX DisplayName="Format Cells" sap:VirtualizedContainerService.HintSize="535,170" sap2010:WorkflowViewState.IdRef="FormatRangeX_4" Range="[Excel.Sheet(&quot;Sheet1&quot;).Range(&quot;C&quot; + (CurrentIndex + 1).ToString)]">
+                              <ueab:FormatRangeX.Alignment>
+                                <ui:AlignmentOptions HorizontalAlignment="xlHAlignGeneral" VerticalAlignment="xlVAlignBottom" WrapText="False" />
+                              </ueab:FormatRangeX.Alignment>
+                              <ueab:FormatRangeX.Font>
+                                <ui:FontOptions Color="Black" FillColor="Transparent" FontFamilyName="Calibri" Size="11" Style="Regular" UnderlineStyle="None" />
+                              </ueab:FormatRangeX.Font>
+                              <ueab:FormatRangeX.Format>
+                                <ueab:CurrencyFormat Currency="€" DecimalPlaces="2" SetAtTheEnd="True" UseThousandSeparator="False" />
+                              </ueab:FormatRangeX.Format>
+                            </ueab:FormatRangeX>
+                            <If Condition="[string.IsNullOrEmpty(CurrentRow(&quot;Price (USD)&quot;)) = true AND string.IsNullOrEmpty(CurrentRow(&quot;Price(EUR)&quot;)) = false]" sap:VirtualizedContainerService.HintSize="535,1026" sap2010:WorkflowViewState.IdRef="If_1">
                               <If.Then>
                                 <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="501,613" sap2010:WorkflowViewState.IdRef="Sequence_5">
                                   <sap:WorkflowViewStateService.ViewState>
@@ -193,17 +204,6 @@
                                 </Sequence>
                               </If.Else>
                             </If>
-                            <ueab:FormatRangeX DisplayName="Format Cells" sap:VirtualizedContainerService.HintSize="535,161" sap2010:WorkflowViewState.IdRef="FormatRangeX_4" Range="[Excel.Sheet(&quot;Sheet1&quot;).Range(&quot;C&quot; + (CurrentIndex + 1).ToString)]">
-                              <ueab:FormatRangeX.Alignment>
-                                <ui:AlignmentOptions HorizontalAlignment="xlHAlignGeneral" VerticalAlignment="xlVAlignBottom" WrapText="False" />
-                              </ueab:FormatRangeX.Alignment>
-                              <ueab:FormatRangeX.Font>
-                                <ui:FontOptions Color="Black" FillColor="Transparent" FontFamilyName="Calibri" Size="11" Style="Regular" UnderlineStyle="None" />
-                              </ueab:FormatRangeX.Font>
-                              <ueab:FormatRangeX.Format>
-                                <ueab:CurrencyFormat Currency="€" DecimalPlaces="2" SetAtTheEnd="True" UseThousandSeparator="False" />
-                              </ueab:FormatRangeX.Format>
-                            </ueab:FormatRangeX>
                           </Sequence>
                         </ActivityAction>
                       </ueab:ExcelForEachRowX.Body>
@@ -231,11 +231,11 @@
       </ueab:ExcelProcessScopeX.Body>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ueab:ExcelProcessScopeX>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="354,164" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;ConvertItems: Sequence Finished&quot;]" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="823,164" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;ConvertItems: Sequence Finished&quot;]" />
   </Sequence>
 </Activity>
